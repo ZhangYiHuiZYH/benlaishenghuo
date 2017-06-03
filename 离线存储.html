@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html manifest="offline.appcache">
+	<head>
+		<meta charset="UTF-8">
+		<title>离线缓存</title>
+		<script>
+			function SetStorage(){
+				console.log(arguments.length);
+				if(arguments.length == 3){
+					if(arguments[1] instanceof Array){//浏览器兼容问题
+						arguments[1] = '['+arguments[1]+']';
+						localStorage.setItem(arguments[0], arguments[1]);
+					}
+					else if(arguments[1] instanceof Object){
+						if(typeof value == "function"){
+							localStorage.setItem(arguments[0], arguments[1]);
+						}else{
+							arguments[1] = JSON.stringify( arguments[1]);
+							console.log(arguments[1]);
+							localStorage.setItem(arguments[0], arguments[1]);
+						}
+					}
+					else{
+						localStorage.setItem(arguments[0], arguments[1]);
+					}
+					setTimeout(function(){
+						localStorage.removeItem(arguments[0]);
+					},arguments[2]*24*60*60*1000);	
+				}
+				else if(arguments.length == 2){
+					if(arguments[1] instanceof Array){
+						arguments[1] = '['+arguments[1]+']';
+						localStorage.setItem(arguments[0], arguments[1]);
+					}
+					else if(arguments[1] instanceof Object){
+						if(typeof value == "function"){
+							localStorage.setItem(arguments[0], arguments[1]);
+						}else{
+							arguments[1] = JSON.stringify( arguments[1]);
+							console.log(arguments[1]);
+							localStorage.setItem(arguments[0], arguments[1]);
+						}
+					}
+					else{
+						localStorage.setItem(arguments[0], arguments[1]);
+					}
+				}
+				else if(arguments.length == 1){
+					console.log(localStorage.getItem(localStorage.key(0)));
+				}
+				else{
+					alert('您传入的参数个数不正确，若是设置则需传入两个参数，若是获取则需传入一个参数');
+				}
+			}
+			var key0 = 'name';
+			var keys = 'names';
+			var time = 10;
+			var value = function(){var b= 2;};
+			SetStorage(key0,value,10);
+			SetStorage(keys,value);
+			//当传入多个参数的时候的时候则为修改某些项     当什么也不传的时候则为删除所有
+			function Clear(){
+				console.log(arguments.length);
+				if(arguments.length == 0){
+					 localStorage.clear();
+				}
+				else{
+					for(var i= 0;i<arguments.length;i++){
+						console.log(arguments[i]);
+						localStorage.removeItem(arguments[i]);
+					}
+				}
+			}
+			Clear(key0);
+		</script>
+	</head>
+	<body>
+		
+	</body>
+</html>
